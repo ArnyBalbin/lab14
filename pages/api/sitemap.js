@@ -1,32 +1,43 @@
-export async function getServerSideProps() {
-  return { props: {} };
-}
+import { getBaseUrl } from "../../lib/getBaseUrl";
 
 export default async function handler(req, res) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"; // Desarrollo local
+  const baseUrl = getBaseUrl();
 
-  // Simulación: rutas dinámicas
-  const rutas = [
-    "", // index
-    "blog",
-    "contacto",
-    "blog/post-1",
-    "blog/post-2",
+  // Ejemplo de posts dinámicos
+  const posts = [
+    { slug: "primer-post", updatedAt: "2025-06-10" },
+    { slug: "como-usar-nextjs", updatedAt: "2025-06-14" },
+    { slug: "seo-en-nextjs", updatedAt: "2025-06-15" }
   ];
+
+  const staticRoutes = ["", "blog", "contacto"];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${rutas
-    .map(
-      (ruta) => `
+${staticRoutes
+  .map(
+    (route) => `
   <url>
-    <loc>${baseUrl}/${ruta}</loc>
+    <loc>${baseUrl}/${route}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>`
-    )
-    .join("")}
-</urlset>`;
+  )
+  .join("")}
+
+${posts
+  .map(
+    (post) => `
+  <url>
+    <loc>${baseUrl}/blog/${post.slug}</loc>
+    <lastmod>${post.updatedAt}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`
+  )
+  .join("")}
+</urlset>`.trim();
 
   res.setHeader("Content-Type", "application/xml");
-  res.write(sitemap);
-  res.end();
+  res.status(200).send(sitemap);
 }

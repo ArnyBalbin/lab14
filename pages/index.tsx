@@ -1,4 +1,7 @@
 import Head from "next/head";
+import { getBaseUrl } from "../lib/getBaseUrl";
+
+const baseUrl = getBaseUrl();
 
 export default function HomePage() {
   return (
@@ -9,8 +12,8 @@ export default function HomePage() {
         <meta property="og:title" content="Inicio | Mi Sitio Web" />
         <meta property="og:description" content="Bienvenido al sitio web oficial. Descubre nuestros servicios y novedades." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://tusitio.com/" />
-        <meta property="og:image" content="https://tusitio.com/images/og-home.jpg" />
+        <meta property="og:url" content={`${baseUrl}/`} />
+        <meta property="og:image" content={`${baseUrl}/images/og-home.jpg`} />
       </Head>
       <main>
         <h1>Página de Inicio</h1>
