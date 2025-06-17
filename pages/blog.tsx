@@ -14,8 +14,13 @@ export default function BlogPage() {
         <meta property="og:url" content={`${baseUrl}/blog`} />
         <meta property="og:image" content={`${baseUrl}/images/og-blog.jpg`} />
       </Head>
-      <main>
-        <h1>Página de Blog</h1>
+      <main className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-gray-800 mb-6">Nuestro Blog</h1>
+          <p className="text-gray-600 text-lg">
+            Lee nuestras publicaciones más recientes sobre tecnología, diseño y desarrollo web.
+          </p>
+        </div>
       </main>
     </>
   );
